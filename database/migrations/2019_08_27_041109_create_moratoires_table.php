@@ -18,7 +18,7 @@ class CreateMoratoiresTable extends Migration
             $table->text('idunite');
             $table->text('idetudiant');
             $table->string('name');
-            $table->longText('descrpition');
+            $table->longText('descrpition')->nullable();
             $table->date('delais')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });

@@ -164,7 +164,7 @@
                     </li>
                   </ul>
     
-                  <a href="#" class="btn btn-primary btn-block"><i class="fa fa-pencil"></i> <b>Modifier ce profil</b></a>
+                  <a href="{{route('admin.edit',[$ADMIN])}}" class="btn btn-primary btn-block"><i class="fa fa-pencil"></i> <b>Modifier ce profil</b></a>
                   <a href="#" class="btn btn-danger btn-block"><i class="fa fa-user-times"></i> <b>supprimer</b></a>
                   <a href="#" class="btn btn-success btn-block"><i class="fa fa-user-plus"></i> <b>nouvel administrateur</b></a>
                 </div>

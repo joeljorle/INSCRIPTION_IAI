@@ -75,6 +75,7 @@ class adminController extends Controller
             'email' => $request->email,
             'description' => $request->description,
             'image'=>$request->image,
+            'phone'=>$request->phone,
             'password' => Hash::make($request['password']),
         ]);
 
@@ -128,6 +129,7 @@ class adminController extends Controller
         $ADMIN->name=$request->name;
         $ADMIN->surname=$request->surname;
         $ADMIN->email=$request->email;
+        $ADMIN->phone=$request->phone;
         $ADMIN->password=$request->password!=null?Hash::make($request->password):$ADMIN->password;
 
         $ADMIN->update();
