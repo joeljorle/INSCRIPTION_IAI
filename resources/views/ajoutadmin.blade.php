@@ -59,15 +59,15 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-         
+
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('/public/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Auth::user()->name}}</span>
             </a>
-           
+
           </li>
-        
+
         </ul>
       </div>
     </nav>
@@ -83,43 +83,52 @@
         </div>
         <div class="pull-left info">
           <span>{{Auth::user()->name}}</span>
+<a class="btn btn-success btn-outline-success" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 <i class="fa fa-sign-out">  </i>  <span>logout</span>
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
         </div>
       </div>
-      
 
-      <ul class="sidebar-menu" data-widget="tree">
-          <li class="header">NAVIGATION</li>
-          <li class="active treeview menu-open">
-            <a href="#">
-              <i class="fa fa-circle-o"></i> <span>GENERALITES</span>
-              <span class="pull-right-container">
+
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">NAVIGATION</li>
+            <li class="active treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>GENERALITES</span>
+                    <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
-            </a>
-            <ul class="treeview-menu">
-              <li class="active"><a href="classes.html"><i class="fa fa-dashboard"></i>acceuill</a></li>
-              <li><a href="classes.html"><i class="fa fa-users"></i>Administrateurs</a></li>
-              <li><a href="classes.html"><i class="fa fa-institution"></i>filieres</a></li> 
-              <li><a href="classes.html"><i class="fa fa-institution"></i>classes</a></li>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('home')}}"><i class="fa fa-dashboard"></i>acceuill</a></li>
+                    <li><a href="{{route('admin.index')}}"><i class="fa fa-users"></i>administrateurs</a></li>
+                    <li><a href="{{route('filieres.index')}}"><i class="fa fa-institution"></i>filieres</a></li>
+                    <li><a href="{{route('classes.index')}}"><i class="fa fa-institution"></i>classes</a></li>
+                    <li><a href="{{route('etudiants.index')}}"><i class="fa fa-users"></i>etudiants</a></li>
 
-            </ul>
-          </li>
-          <li class="active treeview menu-open">
-              <a href="#">
-                <i class="fa fa-circle-o"></i> <span>INSCRIPTION</span>
-                <span class="pull-right-container">
+                </ul>
+            </li>
+            <li class="active treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>INSCRIPTION</span>
+                    <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
-              </a>
-              <ul class="treeview-menu">
-                <li class="active"><a href="classes.html"><i class="fa fa-dashboard"></i>paiements</a></li>
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>Unite de paiements</a></li>
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>moratoire et penalite</a></li> 
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>paiements a distances</a></li>
-  
-              </ul>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('paiements.index')}}"><i class="fa fa-dashboard"></i>paiements</a></li>
+                    <li><a href="{{route('unitepaiements.index')}}"><i class="fa fa-square-o"></i>unites de paiement</a></li>
+                    <li><a href="{{route('modelpaiements.index')}}"><i class="fa fa-square-o"></i>models de paiement</a></li>
+                    <li><a href="{{route('moratoires.index')}}"><i class="fa fa-square-o"></i>moratoire et penalite</a></li>
+                    <li><a href="{{route('paiementdistances.index')}}"><i class="fa fa-square-o"></i>paiements a distances</a></li>
+
+                </ul>
             </li>
-          </ul>
+        </ul>
 
 
     </section>
@@ -130,22 +139,25 @@
   <div class="content-wrapper">
       <section class="content-header">
           <h1>
-          AJOUT D'ADMINISTRATEUR
+         {{$ADMIN==null?"AJOUT D'ADMINISTRATEUR":"MODIFICATION DE L'ADMINISTRATEUR ".$ADMIN->name.'  '.$ADMIN->surname}}
             <small></small>
           </h1>
-          
+
         </section>
 
 
 
 
-          <form method="POST" action="{{ route('admin.store') }}" enctype="multipart/form-data">
-            @csrf
+          <form method="POST" action="{{ $ADMIN==null?route('admin.store'):route('admin.update',$ADMIN)}}" enctype="multipart/form-data">
+
+              @if($ADMIN!=null) @method('PATCH') @endif
+
+              @csrf
             <div class="box-body">
 
                 <div class="form-group" >
                     <label for="admininom">nom</label>
-                    <input type="text" name="name" class="form-control  @error('name') is-invalid @enderror" id="adminnom" placeholder="Entrer un nom" value="{{ old('name') }}"  autocomplete="name" autofocus>
+                    <input type="text" name="name" class="form-control  @error('name') is-invalid @enderror" id="adminnom" placeholder="Entrer un nom" value="{{ $ADMIN==null?old('name'):$ADMIN->name }}"  autocomplete="name" autofocus required>
 
                     @error('name')
                     <span class="invalid-feedback" role="alert">
@@ -156,7 +168,18 @@
 
                 <div class="form-group" >
                     <label for="adminiprenom">prenom</label>
-                    <input type="text" name="surname" class="form-control  @error('surname') is-invalid @enderror" id="adminprenom" placeholder="Entrer un prenom" value="{{ old('surname') }}"  autocomplete="surname" autofocus>
+                    <input type="text" name="surname" class="form-control  @error('surname') is-invalid @enderror" id="adminprenom" placeholder="Entrer un prenom" value="{{$ADMIN==null? old('surname'):$ADMIN->surname }}"  autocomplete="surname" autofocus>
+
+                    @error('surname')
+                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                    @enderror
+                </div>
+
+                <div class="form-group" >
+                    <label for="adminiphone">phone</label>
+                    <input type="number" name="phone" class="form-control  @error('phone') is-invalid @enderror" id="adminphone" placeholder="Entrer un contact" value="{{$ADMIN==null? old('surname'):$ADMIN->phone }}"  autocomplete="phone" autofocus>
 
                     @error('surname')
                     <span class="invalid-feedback" role="alert">
@@ -169,7 +192,7 @@
               <div class="form-group">
                 <label for="email">Addresse Email</label>
 
-                  <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"  placeholder="Entrer votre adresse email" value="{{ old('email') }}"  autocomplete="email">
+                  <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"  placeholder="Entrer votre adresse email" value="{{$ADMIN==null?old('email'):$ADMIN->email}}"  autocomplete="email">
 
                   @error('email')
                   <span class="invalid-feedback" role="alert">
@@ -204,7 +227,7 @@
                   @enderror
               </div>
 
-              
+
               <div class="form-group">
                   <label>privilleges</label>
                   <div class="checkbox">
@@ -260,12 +283,12 @@
 
             </div>
             <!-- /.box-body -->
-    
+
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary">crer</button>
+              <button type="submit" class="btn btn-primary">{{$ADMIN==null?"CREER":"MODIFIER"}}</button>
             </div>
           </form>
-    
+
 
 
 
@@ -282,12 +305,11 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2019 <span href="https://adminlte.io">INSCRIPTION IAI</span>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2019 <span href="{{route('home')}}">INSCRIPTION IAI</span>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
-</body>
-<!-- jQuery 3 -->
+
 <script src="{{ asset('/public/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('/public/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>

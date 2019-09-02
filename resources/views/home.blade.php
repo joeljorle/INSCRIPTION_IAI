@@ -60,19 +60,21 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-         
+
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('/public/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Auth::user()->name}}</span>
             </a>
-           
+
           </li>
-        
+
         </ul>
       </div>
     </nav>
   </header>
+
+
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -84,53 +86,55 @@
         </div>
         <div class="pull-left info">
           <span>{{Auth::user()->name}}</span>
+<a class="btn btn-success btn-outline-success" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 <i class="fa fa-sign-out">  </i>  <span>logout</span>
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+
         </div>
       </div>
 
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
-      <ul class="sidebar-menu" data-widget="tree">
-
-          <li class="header">NAVIGATION</li>
-          <li class="active treeview menu-open">
-              <a class="dropdown-item" href="{{ route('logout') }}"
-
-                 onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                  <i class="fa fa-sign-out"></i> <span>LOUGOUT</span>
-              </a>
-            <a href="#">
-              <i class="fa fa-circle-o"></i> <span>GENERALITES</span>
-              <span class="pull-right-container">
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">NAVIGATION</li>
+            <li class="active treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>GENERALITES</span>
+                    <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
-            </a>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('home')}}"><i class="fa fa-dashboard"></i>acceuill</a></li>
+                    <li><a href="{{route('admin.index')}}"><i class="fa fa-users"></i>administrateurs</a></li>
+                    <li><a href="{{route('filieres.index')}}"><i class="fa fa-institution"></i>filieres</a></li>
+                    <li><a href="{{route('classes.index')}}"><i class="fa fa-institution"></i>classes</a></li>
+                    <li><a href="{{route('etudiants.index')}}"><i class="fa fa-users"></i>etudiants</a></li>
 
-            <ul class="treeview-menu">
-              <li class="active"><a href="classes.html"><i class="fa fa-dashboard"></i>acceuill</a></li>
-              <li><a href="{{route('admin.index')}}"><i class="fa fa-users"></i>Administrateurs</a></li>
-              <li><a href="classes.html"><i class="fa fa-institution"></i>filieres</a></li> 
-              <li><a href="classes.html"><i class="fa fa-institution"></i>classes</a></li>
-
-            </ul>
-          </li>
-          <li class="active treeview menu-open">
-              <a href="#">
-                <i class="fa fa-circle-o"></i> <span>INSCRIPTION</span>
-                <span class="pull-right-container">
+                </ul>
+            </li>
+            <li class="active treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>INSCRIPTION</span>
+                    <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
-              </a>
-              <ul class="treeview-menu">
-                <li class="active"><a href="classes.html"><i class="fa fa-dashboard"></i>paiements</a></li>
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>Unite de paiements</a></li>
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>moratoire et penalite</a></li> 
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>paiements a distances</a></li>
-  
-              </ul>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('paiements.index')}}"><i class="fa fa-dashboard"></i>paiements</a></li>
+                    <li><a href="{{route('unitepaiements.index')}}"><i class="fa fa-square-o"></i>unites de paiement</a></li>
+                    <li><a href="{{route('modelpaiements.index')}}"><i class="fa fa-square-o"></i>models de paiement</a></li>
+                    <li><a href="{{route('moratoires.index')}}"><i class="fa fa-square-o"></i>moratoire et penalite</a></li>
+                    <li><a href="{{route('paiementdistances.index')}}"><i class="fa fa-square-o"></i>paiements a distances</a></li>
+
+                </ul>
             </li>
-          </ul>
+        </ul>
 
 
     </section>
@@ -147,18 +151,18 @@
         </ol>
       </section>
   <!-- Content Header (Page header) -->
- 
+
 
     <!-- Main content -->
     <section class="content">
-    
+
       <div class="row">
           <section class="content-header">
               <h1>
                 CHIFFRES
                 <small></small>
               </h1>
-              
+
             </section>
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
@@ -166,7 +170,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">filieres</span>
-              <span class="info-box-number">90</span>
+              <span class="info-box-number">{{count($FILS)}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -180,7 +184,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">classes</span>
-              <span class="info-box-number">90</span>
+              <span class="info-box-number">{{count($CLASS)}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -194,7 +198,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">etudiants</span>
-              <span class="info-box-number">90</span>
+              <span class="info-box-number">{{count($ETUDS)}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -209,7 +213,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">solvable</span>
-              <span class="info-box-number">90</span>
+              <span class="info-box-number">{{count($SOLVABLES)}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -223,7 +227,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">insolvable</span>
-              <span class="info-box-number">90</span>
+              <span class="info-box-number">{{count($INSOLVABLES)}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -237,7 +241,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">revenus</span>
-              <span class="info-box-number">90000</span>
+              <span class="info-box-number">{{$REVENUS}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -250,8 +254,8 @@
             <span class="info-box-icon bg-red"><i class="ion ion-cash"></i></span>
 
             <div class="info-box-content">
-              <span class="info-box-text">non revenus</span>
-              <span class="info-box-number">90000</span>
+              <span class="info-box-text">reste a payer</span>
+              <span class="info-box-number">{{$RESTE}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -265,7 +269,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Administrateurs</span>
-              <span class="info-box-number">90000</span>
+              <span class="info-box-number">{{count($ADMINS)}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -281,20 +285,20 @@
             GENERALITES
             <small></small>
           </h1>
-          
+
         </section>
 
         <div class="box box-info">
           <div class="box-header with-border">
             <h3 class="box-title">statut general</h3>
-  
+
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
               <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
           </div>
-  
+
           <!-- /.box-header -->
           <div class="box-body">
             <div class="col">
@@ -314,19 +318,19 @@
             <!-- /.col -->
           </div>
         </div>
-        <!-- /.nav-tabs-custom -->  
-        
+        <!-- /.nav-tabs-custom -->
+
         <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">Quelques Administrateurs</h3>
-    
+
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
-    
+
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
@@ -335,55 +339,20 @@
                   <tr>
                     <th>IDENTIFIANT</th>
                     <th>NOM ET PRENOM</th>
-                    <th>Status</th>
-                    <th>priviledges</th>
                     <th>Enregistrer le</th>
                   </tr>
                   </thead>
                   <tbody>
+                  @if($ADMINS!=null)
+                      @foreach($ADMINS as $ADMIN)
                   <tr>
-                    <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                    <td>MESSU MESSU</td>
-                    <td><span class="label label-success">online</span></td>
-                    <td>TOUT</td>
-                    <td>20/20/2020 </td>
+                    <td>{{$ADMIN->slug}}</td>
+                    <td>{{$ADMIN->name.'  '.$ADMIN->surname}}</td>
+                    <td>{{$ADMIN->created_at}}</td>
+                    <td></td>
                   </tr>
-                  <tr>
-                      <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                      <td>MESSU MESSU</td>
-                      <td><span class="label label-danger">offline</span></td>
-                      <td>CLASSE ET FILIERES</td>
-                      <td>20/20/2020 </td>
-                    </tr>
-                       
-                    <tr>
-                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                        <td>MESSU MESSU</td>
-                        <td><span class="label label-success">online</span></td>
-                        <td>TOUT</td>
-                        <td>20/20/2020 </td>
-                      </tr>
-                      <tr>
-                          <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                          <td>MESSU MESSU</td>
-                          <td><span class="label label-danger">offline</span></td>
-                          <td>CLASSE ET FILIERES</td>
-                          <td>20/20/2020 </td>
-                        </tr>
-                        <tr>
-                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                            <td>MESSU MESSU</td>
-                            <td><span class="label label-success">online</span></td>
-                            <td>TOUT</td>
-                            <td>20/20/2020 </td>
-                          </tr>
-                          <tr>
-                              <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                              <td>MESSU MESSU</td>
-                              <td><span class="label label-danger">offline</span></td>
-                              <td>CLASSE ET FILIERES</td>
-                              <td>20/20/2020 </td>
-                            </tr>
+                     @endforeach
+                   @endif
 
                   </tbody>
                 </table>
@@ -393,13 +362,13 @@
             <!-- /.box-body -->
              <!-- /.box-body -->
              <div class="box-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvel Administrateur</a>
-                 <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Voir tous</a>
+                <a href="{{route('admin.create')}}" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvel Administrateur</a>
+                 <a href="{{route('admin.index')}}" class="btn btn-sm btn-default btn-flat pull-right">Voir tous</a>
               </div>
               <!-- /.box-footer -->
           </div>
           <!-- /.box -->
-    
+
       <div class="box box-info">
         <div class="box-header with-border">
           <h3 class="box-title">Quelques etudiants</h3>
@@ -419,75 +388,23 @@
               <tr>
                 <th>MATRICULE</th>
                 <th>NOM ET PRENOM</th>
-                <th>Status</th>
                 <th>classe</th>
                 <th>Enregistrer le</th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-success">solvable</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-danger">insolvable</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-warning">moratoire</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-success">solvable</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-danger">insolvable</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-warning">moratoire</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-success">solvable</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-danger">insolvable</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>
-              <tr>
-                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                <td>MESSU MESSU</td>
-                <td><span class="label label-warning">moratoire</span></td>
-                <td>GL3A</td>
-                <td>20/20/2020 </td>
-              </tr>       
+
+              @if($ETUDS!=null)
+                  @foreach($ETUDS as $ETUD)
+                      <tr>
+                          <td>{{$ETUD->slug}}</td>
+                          <td>{{$ETUD->name.'  '.$ETUD->surname}}</td>
+                          <td>{{$ETUD->CLASSE()->name}}</td>
+                          <td>{{$ETUD->created_at}}</td>
+                          <td></td>
+                      </tr>
+                      @endforeach
+                      @endif
               </tbody>
             </table>
           </div>
@@ -496,8 +413,8 @@
         <!-- /.box-body -->
          <!-- /.box-body -->
          <div class="box-footer clearfix">
-            <a href="javascript:void(0)" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvel etudiant</a>
-             <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Voir tous</a>
+            <a href="{{route('etudiants.create')}}" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvel etudiant</a>
+             <a href="{{route('etudiants.index')}}" class="btn btn-sm btn-default btn-flat pull-right">Voir tous</a>
           </div>
           <!-- /.box-footer -->
       </div>
@@ -507,14 +424,14 @@
       <div class="box box-info">
           <div class="box-header with-border">
             <h3 class="box-title">Quelques classes</h3>
-  
+
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
               <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
           </div>
-  
+
           <!-- /.box-header -->
           <div class="box-body">
             <div class="table-responsive">
@@ -529,37 +446,18 @@
                 </thead>
                 <tbody>
                 <tr>
-                  <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                  <td>GL3A</td>
-                  <td>10</td>
-                  <td>20/20/2020 </td>
+                @if($CLASS!=null)
+                    @foreach($CLASS as $CLAS)
+                        <tr>
+                            <td>{{$CLAS->slug}}</td>
+                            <td>{{$CLAS->name}}</td>
+                            <td>{{$CLAS->EFFECTIF()}}</td>
+                            <td>{{$CLAS->created_at}}</td>
+                            <td></td>
+                        </tr>
+                        @endforeach
+                        @endif
                 </tr>
-                <tr>
-                    <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                    <td>GL3A</td>
-                    <td>10</td>
-                    <td>20/20/2020 </td>
-                  </tr> <tr>
-                      <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                      <td>GL3A</td>
-                      <td>10</td>
-                      <td>20/20/2020 </td>
-                    </tr> <tr>
-                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                        <td>GL3A</td>
-                        <td>10</td>
-                        <td>20/20/2020 </td>
-                      </tr> <tr>
-                          <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                          <td>GL3A</td>
-                          <td>10</td>
-                          <td>20/20/2020 </td>
-                        </tr> <tr>
-                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                            <td>GL3A</td>
-                            <td>10</td>
-                            <td>20/20/2020 </td>
-                          </tr>
                 </tbody>
               </table>
             </div>
@@ -568,8 +466,8 @@
           <!-- /.box-body -->
            <!-- /.box-body -->
            <div class="box-footer clearfix">
-              <a href="javascript:void(0)" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-plus"></i> Nouvelle classe</a>
-              <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
+              <a href="{{route('classes.create')}}" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-plus"></i> Nouvelle classe</a>
+              <a href="{{route('classes.index')}}" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
             </div>
             <!-- /.box-footer -->
       </div>
@@ -578,14 +476,14 @@
         <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">Quelques Filieres</h3>
-    
+
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
-    
+
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
@@ -600,44 +498,18 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                    <td>GL3</td>
-                    <td>10</td>
-                    <td>100</td>
-                    <td>20/20/2020 </td>
-                  </tr>
-                  <tr>
-                      <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                      <td>GL3</td>
-                      <td>10</td>
-                      <td>100</td>
-                      <td>20/20/2020 </td>
-                    </tr> <tr>
-                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                        <td>GL3</td>
-                        <td>10</td>
-                        <td>100</td>
-                        <td>20/20/2020 </td>
-                      </tr> <tr>
-                          <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                          <td>GL3</td>
-                          <td>10</td>
-                          <td>100</td>
-                          <td>20/20/2020 </td>
-                        </tr> <tr>
-                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                            <td>GL3</td>
-                            <td>10</td>
-                            <td>100</td>
-                            <td>20/20/2020 </td>
-                          </tr> <tr>
-                              <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                              <td>GL3</td>
-                              <td>10</td>
-                              <td>100</td>
-                              <td>20/20/2020 </td>
-                            </tr>
+
+                  @if($FILS!=null)
+                      @foreach($FILS as $FIL)
+                          <tr>
+                              <td>{{$FIL->slug}}</td>
+                              <td>{{$FIL->name}}</td>
+                              <td>{{$FIL->CLASSES()}}</td>
+                              <td>{{$FIL->EFFECTIF()}}</td>
+                              <td>{{$FIL->created_at}}</td>
+                          </tr>
+                      @endforeach
+                  @endif
                   </tbody>
                 </table>
               </div>
@@ -646,8 +518,8 @@
             <!-- /.box-body -->
              <!-- /.box-body -->
              <div class="box-footer clearfix">
-                <a href="javascript:void(0)" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-plus"></i> Nouvelle filiere</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
+                <a href="{{route('filieres.create')}}" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-plus"></i> Nouvelle filiere</a>
+                <a href="{{route('filieres.index')}}" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
               </div>
               <!-- /.box-footer -->
         </div>
@@ -659,22 +531,22 @@
               INSCRIPTIONS
                 <small></small>
               </h1>
-              
+
             </section>
-    
-           
-            
+
+
+
             <div class="box box-info">
                 <div class="box-header with-border">
                   <h3 class="box-title">Quelques Unites de Paiement</h3>
-        
+
                   <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                     </button>
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                   </div>
                 </div>
-        
+
                 <!-- /.box-header -->
                 <div class="box-body">
                   <div class="table-responsive">
@@ -689,35 +561,20 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                        <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                        <td>INSCRIPTION</td>
-                        <td>phase de ............ lore</td>
-                        <td>1000</td>
-                        <td>1000000000000</td>
-                      </tr>
-                      <tr>
-                          <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                          <td>PREMIERE TRANCHE</td>
-                          <td>phase de ............ lore</td>
-                          <td>1000</td>
-                          <td>1000000000000</td>
-                        </tr>
-                        <tr>
-                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                            <td>DEUXIEME TRANCHE</td>
-                            <td>phase de ............ lore</td>
-                            <td>1000</td>
-                            <td>1000000000000</td>
-                          </tr>
-                          <tr>
-                              <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                              <td>TROISIEME TRANCHE</td>
-                              <td>phase de ............ lore</td>
-                              <td>1000</td>
-                              <td>1000000000000</td>
-                            </tr>
-    
+
+
+                      @if($UNITS!=null)
+                          @foreach($UNITS as $UNIT)
+                              <tr>
+                                  <td>{{$UNIT->slug}}</td>
+                                  <td>{{$UNIT->name}}</td>
+                                  <td>{{$UNIT->description}}</td>
+                                  <td>{{$UNIT->NBRE_PAIEMENTS()}}</td>
+                                  <td>{{$UNIT->created_at}}</td>
+                              </tr>
+                          @endforeach
+                      @endif
+
                       </tbody>
                     </table>
                   </div>
@@ -726,8 +583,8 @@
                 <!-- /.box-body -->
                  <!-- /.box-body -->
                  <div class="box-footer clearfix">
-                    <a href="javascript:void(0)" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvelle unite</a>
-                     <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
+                    <a href="{{route('unitepaiements.index')}}" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvelle unite</a>
+                     <a href="{{route('unitepaiements.index')}}" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
                   </div>
                   <!-- /.box-footer -->
               </div>
@@ -736,14 +593,14 @@
               <div class="box box-info">
                   <div class="box-header with-border">
                     <h3 class="box-title">Quelques Unites de Paiement a distance</h3>
-          
+
                     <div class="box-tools pull-right">
                       <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                       </button>
                       <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                   </div>
-          
+
                   <!-- /.box-header -->
                   <div class="box-body">
                     <div class="table-responsive">
@@ -758,35 +615,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                          <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                          <td>ORANGE MONEY</td>
-                          <td>phase de ............ lore</td>
-                          <td>1000</td>
-                          <td>1000000000000</td>
-                        </tr>
-                        <tr>
-                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                            <td>CBC</td>
-                            <td>phase de ............ lore</td>
-                            <td>1000</td>
-                            <td>1000000000000</td>
-                          </tr>
-                          <tr>
-                              <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                              <td>BITCOIN</td>
-                              <td>phase de ............ lore</td>
-                              <td>1000</td>
-                              <td>1000000000000</td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>PAYPAL</td>
-                                <td>phase de ............ lore</td>
-                                <td>1000</td>
-                                <td>1000000000000</td>
-                              </tr>
-      
+                        @if($PDISTS!=null)
+                            @foreach($PDISTS as $PDIST)
+                                <tr>
+                                    <td>{{$PDIST->slug}}</td>
+                                    <td>{{$PDIST->name}}</td>
+                                    <td>{{$PDIST->description}}</td>
+                                    <td>{{$PDIST->NBRE_PAIEMENTS()}}</td>
+                                    <td>{{$PDIST->created_at}}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+
                         </tbody>
                       </table>
                     </div>
@@ -795,8 +635,8 @@
                   <!-- /.box-body -->
                    <!-- /.box-body -->
                    <div class="box-footer clearfix">
-                      <a href="javascript:void(0)" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvelle unite</a>
-                       <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
+                       <a href="{{route('paiementdistances.create')}}" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvelle unite</a>
+                       <a href="{{route('paiementdistances.index')}}" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -804,14 +644,14 @@
                 <div class="box box-info">
                     <div class="box-header with-border">
                       <h3 class="box-title">Quelques Moratoires</h3>
-            
+
                       <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
                         <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                       </div>
                     </div>
-            
+
                     <!-- /.box-header -->
                     <div class="box-body">
                       <div class="table-responsive">
@@ -821,26 +661,23 @@
                             <th>IDENTIFIANT</th>
                             <th>LABEL</th>
                             <th>Description</th>
-                            <th>Etudiant</th>
+                            <th>Etudiants</th>
                             <th>unite</th>
                           </tr>
                           </thead>
                           <tbody>
-                          <tr>
-                            <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                            <td>GROSSESSE</td>
-                            <td>phase de ............ lore</td>
-                            <td>MESSU MESSU</td>
-                            <td>INSCRIPTION</td>
-                          </tr>
-                          <tr>
-                              <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                              <td>MARIAGE</td>
-                              <td>phase de ............ lore</td>
-                              <td>MESSU MESSU</td>
-                              <td>PREMIERE TRANCHE</td>
-                            </tr>
-                            
+                          @if($MORATS!=null)
+                              @foreach($MORATS as $MORAT)
+                                  <tr>
+                                      <td>{{$MORAT->slug}}</td>
+                                      <td>{{$MORAT->name}}</td>
+                                      <td>{{$MORAT->description}}</td>
+                                      <td>{{$MORAT->NBRE_PAIEMENTS()}}</td>
+                                      <td>{{$MORAT->created_at}}</td>
+                                  </tr>
+                              @endforeach
+                          @endif
+
                           </tbody>
                         </table>
                       </div>
@@ -849,8 +686,8 @@
                     <!-- /.box-body -->
                      <!-- /.box-body -->
                      <div class="box-footer clearfix">
-                        <a href="javascript:void(0)" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvelle unite</a>
-                         <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
+                        <a href="{{route('moratoires.create')}}" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvelle unite</a>
+                         <a href="{{route('moratoires.index')}}" class="btn btn-sm btn-default btn-flat pull-right">Voir touts</a>
                       </div>
                       <!-- /.box-footer -->
                   </div>
@@ -859,14 +696,14 @@
                   <div class="box box-info">
                       <div class="box-header with-border">
                         <h3 class="box-title">Quelques penalites</h3>
-              
+
                         <div class="box-tools pull-right">
                           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                           </button>
                           <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                         </div>
                       </div>
-              
+
                       <!-- /.box-header -->
                       <div class="box-body">
                         <div class="table-responsive">
@@ -878,44 +715,26 @@
                               <th>filiere</th>
                               <th>LABEL</th>
                               <th>periode</th>
-                              <th>delais</th>
+                              <th>expire le</th>
                               <th>montant FCFA</th>
-                              <th>etudiants concerne</th>
-                              
+
                             </tr>
                             </thead>
                             <tbody>
-                           <tr>
-                              <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                              <td>INSCRIPTION</td>
-                              <td>GL</td>
-                              <td>PENALITE_INS_GL</td>
-                              <td>par semaine</td>
-                              <td>20/20/2020</td>
-                              <td>10000</td>
-                              <td>10</td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>INSCRIPTION</td>
-                                <td>GL</td>
-                                <td>PENALITE_INS_GL</td>
-                                <td>par semaine</td>
-                                <td>20/20/2020</td>
-                                <td>10000</td>
-                                <td>10</td>
-                              </tr>
-                              <tr>
-                                  <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                  <td>INSCRIPTION</td>
-                                  <td>GL</td>
-                                  <td>PENALITE_INS_GL</td>
-                                  <td>par semaine</td>
-                                  <td>20/20/2020</td>
-                                  <td>10000</td>
-                                  <td>10</td>
-                                </tr>
-                            
+                            @if($PENALS!=null)
+                                @foreach($PENALS as $PENAL)
+                                    <tr>
+                                        <td>{{$PENAL->slug}}</td>
+                                        <td>{{$PENAL->UNITE()->name}}</td>
+                                        <td>{{$PENAL->FILIERE()->name}}</td>
+                                        <td>{{'tous les '.$PENAL->frequence.'  '}} @if($PENAL->periode==0) jour @elseif($PENAL->periode==1) semaine @else mois @endif</td>
+                                        <td>{{$PENAL->delais}}</td>
+                                        <td>{{$PENAL->created_at}}</td>
+                                        <td>{{$PENAL->montant}}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
+
                             </tbody>
                           </table>
                         </div>
@@ -924,8 +743,8 @@
                       <!-- /.box-body -->
                        <!-- /.box-body -->
                        <div class="box-footer clearfix">
-                          <a href="javascript:void(0)" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvelle penalite</a>
-                           <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
+                          <a href="{{route('penalites.create')}}" class="btn btn-sm btn-info btn-fat pull-left">  <i class="fa fa-user-plus"></i> Nouvelle penalite</a>
+                           <a href="{{route('penalites.index')}}" class="btn btn-sm btn-default btn-flat pull-right">Voir toutes</a>
                         </div>
                         <!-- /.box-footer -->
                     </div>
@@ -940,7 +759,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2019 <span href="https://adminlte.io">INSCRIPTION IAI</span>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2019 <span href="{{route('home')}}">INSCRIPTION IAI</span>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
@@ -986,24 +805,24 @@
 <script src="{{ asset('/public/dist/js/demo.js') }}"></script>
 <script>
 $(function () {
-          
+
   var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
 var pieChart       = new Chart(pieChartCanvas)
 var PieData        = [
 {
-value    : 700,
+value    : {{count($SOLVABLES)}},
 color    : 'green',
 highlight: '#f56954',
 label    : 'Solvables'
 },
 {
-value    : 500,
+value    : {{count($INSOLVABLES)}},
 color    : 'red',
 highlight: '#00a65a',
 label    : 'Insolvables'
 },
 {
-value    : 400,
+value    : {{count($MORATOIRES)}},
 color    : 'yellow',
 highlight: '#f39c12',
 label    : 'moratoire'
@@ -1031,13 +850,12 @@ responsive           : true,
 // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
 maintainAspectRatio  : true,
 //String - A legend template
-legendTemplate       : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
 }
 //Create pie or douhnut chart
 // You can switch between pie and douhnut using the method below.
 pieChart.Doughnut(PieData, pieOptions)
 
 })
-</script>        
+</script>
 </body>
 </html>

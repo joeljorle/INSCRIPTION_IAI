@@ -15,6 +15,15 @@ class CreatePenalitesTable extends Migration
     {
         Schema::create('penalites', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('idunite')->nullable();
+            $table->string('idfiliere')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('name')->nullable()->default('sans nom');
+            $table->longText('description')->nullable()->default('sans description');
+            $table->integer('frequence');
+            $table->integer('periode');
+            $table->bigInteger('montant');
+            $table->date('delais')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }

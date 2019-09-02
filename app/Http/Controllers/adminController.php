@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\func;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class adminController extends Controller
 {
@@ -38,7 +40,9 @@ class adminController extends Controller
      */
     public function index()
     {
-        return view('gestionadmin');
+        $ADMINS=User::all();
+        $ADMINSONLINE=User::whereOnline(true)->count();
+        return view('gestionadmin',compact('ADMINS','ADMINSONLINE'));
     }
 
     /**
@@ -48,7 +52,8 @@ class adminController extends Controller
      */
     public function create()
     {
-        return view('ajoutadmin');
+        $ADMIN=null;
+        return view('ajoutadmin',compact('ADMIN'));
     }
 
     /**
@@ -69,8 +74,9 @@ class adminController extends Controller
 
 
 
-        return User::create([
+        User::create([
             'name' => $request->name,
+            'slug' => func::random(15),
             'surname' => $request->surname,
             'email' => $request->email,
             'description' => $request->description,
@@ -80,6 +86,7 @@ class adminController extends Controller
         ]);
 
 
+        return redirect()->route('admin.index');
 
 
     }
@@ -117,23 +124,30 @@ class adminController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users',Rule::unique('users')->ignore($id, 'id')],
-            'password' => ['string', 'min:8', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'max:255', "unique:users,email,$id,id"],
+
             //'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $ADMIN=User::find($id);
+        if($request->password!=null)
+         $this->validate($request,[
+             'password' => ['string', 'min:8', 'confirmed']
+         ]);
 
+
+        $ADMIN=User::find($id);
         $ADMIN->name=$request->name;
         $ADMIN->surname=$request->surname;
         $ADMIN->email=$request->email;
         $ADMIN->phone=$request->phone;
         $ADMIN->password=$request->password!=null?Hash::make($request->password):$ADMIN->password;
 
-        $ADMIN->update();
-        return redirect()->back();
+        $ADMIN->save();
+        return redirect()->route('admin.show',[$ADMIN]);
 
     }
 
@@ -147,7 +161,10 @@ class adminController extends Controller
     {
         $ADMIN=User::find($id);
         $ADMIN->delete();
-        return redirect()->back();
+        return redirect()->route('admin.index');
 
     }
+
+
+
 }

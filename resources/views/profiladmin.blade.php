@@ -66,15 +66,15 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-         
+
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('/public/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Auth::user()->name}}</span>
             </a>
-           
+
           </li>
-        
+
         </ul>
       </div>
     </nav>
@@ -90,43 +90,52 @@
         </div>
         <div class="pull-left info">
           <span>{{Auth::user()->name}}</span>
+<a class="btn btn-success btn-outline-success" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 <i class="fa fa-sign-out">  </i>  <span>logout</span>
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
         </div>
       </div>
-      
 
-      <ul class="sidebar-menu" data-widget="tree">
-          <li class="header">NAVIGATION</li>
-          <li class="active treeview menu-open">
-            <a href="#">
-              <i class="fa fa-circle-o"></i> <span>GENERALITES</span>
-              <span class="pull-right-container">
+
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">NAVIGATION</li>
+            <li class="active treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>GENERALITES</span>
+                    <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
-            </a>
-            <ul class="treeview-menu">
-              <li class="active"><a href="classes.html"><i class="fa fa-dashboard"></i>acceuill</a></li>
-              <li><a href="classes.html"><i class="fa fa-users"></i>Administrateurs</a></li>
-              <li><a href="classes.html"><i class="fa fa-institution"></i>filieres</a></li> 
-              <li><a href="classes.html"><i class="fa fa-institution"></i>classes</a></li>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('home')}}"><i class="fa fa-dashboard"></i>acceuill</a></li>
+                    <li><a href="{{route('admin.index')}}"><i class="fa fa-users"></i>administrateurs</a></li>
+                    <li><a href="{{route('filieres.index')}}"><i class="fa fa-institution"></i>filieres</a></li>
+                    <li><a href="{{route('classes.index')}}"><i class="fa fa-institution"></i>classes</a></li>
+                    <li><a href="{{route('etudiants.index')}}"><i class="fa fa-users"></i>etudiants</a></li>
 
-            </ul>
-          </li>
-          <li class="active treeview menu-open">
-              <a href="#">
-                <i class="fa fa-circle-o"></i> <span>INSCRIPTION</span>
-                <span class="pull-right-container">
+                </ul>
+            </li>
+            <li class="active treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>INSCRIPTION</span>
+                    <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
-              </a>
-              <ul class="treeview-menu">
-                <li class="active"><a href="classes.html"><i class="fa fa-dashboard"></i>paiements</a></li>
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>Unite de paiements</a></li>
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>moratoire et penalite</a></li> 
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>paiements a distances</a></li>
-  
-              </ul>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('paiements.index')}}"><i class="fa fa-dashboard"></i>paiements</a></li>
+                    <li><a href="{{route('unitepaiements.index')}}"><i class="fa fa-square-o"></i>unites de paiement</a></li>
+                    <li><a href="{{route('modelpaiements.index')}}"><i class="fa fa-square-o"></i>models de paiement</a></li>
+                    <li><a href="{{route('moratoires.index')}}"><i class="fa fa-square-o"></i>moratoire et penalite</a></li>
+                    <li><a href="{{route('paiementdistances.index')}}"><i class="fa fa-square-o"></i>paiements a distances</a></li>
+
+                </ul>
             </li>
-          </ul>
+        </ul>
 
 
     </section>
@@ -139,19 +148,19 @@
           <h1>
          PROFIL ADMINISTRATEUR
           </h1>
-          
+
         </section>
 
         <div class="row">
             <div class="col-md-4">
-    
+
               <!-- Profile Image -->
               <div class="box box-primary">
                 <div class="box-body box-profile">
                   <img class="profile-user-img img-responsive img-circle" src="{{ asset('/public/dist/img/user4-128x128.jpg') }}" alt="User profile picture">
-    
-                  <h3 class="profile-username text-center">{{$ADMIN->name.'  '.$ADMIN->prenom}}</h3>
-    
+
+                  <h3 class="profile-username text-center">{{$ADMIN->name.'  '.$ADMIN->surname}}</h3>
+
                   <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
                       <b>contact</b> <a class="pull-right">{{$ADMIN->phone}}</a>
@@ -160,39 +169,50 @@
                       <b>adrese email</b> <a class="pull-right">{{$ADMIN->email}}</a>
                     </li>
                     <li class="list-group-item">
-                  
+
                     </li>
                   </ul>
-    
+
                   <a href="{{route('admin.edit',[$ADMIN])}}" class="btn btn-primary btn-block"><i class="fa fa-pencil"></i> <b>Modifier ce profil</b></a>
-                  <a href="#" class="btn btn-danger btn-block"><i class="fa fa-user-times"></i> <b>supprimer</b></a>
-                  <a href="#" class="btn btn-success btn-block"><i class="fa fa-user-plus"></i> <b>nouvel administrateur</b></a>
+
+                  @if($ADMIN->id != Auth::user()->id)
+                        <a class="btn btn-danger btn-block" onclick="document.getElementById('delete-form').submit();"><i class="fa fa-user-times"></i> <b>supprimer</b></a>
+                   @endif
+                    <a href="{{route('admin.create')}}" class="btn btn-success btn-block" >  <i class="fa fa-user-plus"></i> <b>nouvel administrateur</b></a>
+                  <form action="{{route('admin.destroy',[$ADMIN])}}" method="post" id="delete-form">
+                      @csrf
+                      @method('DELETE')
+                  </form>
+
+
                 </div>
                 <!-- /.box-body -->
               </div>
               <!-- /.box -->
-    
+
             </div>
             <!-- /.col -->
 
             <div class="col-md-8">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                      <h3 class="box-title">PENSION</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
                       <strong><i class="fa fa-money margin-r-5"></i>Privileges</strong>
-        
+
                       <p class="text-muted">
                        TOUS
                       </p>
-        
+        <hr>
+                       <p>
+                           {{$ADMIN->description}}
+                       </p>
                       </div>
                     <!-- /.box-body -->
                   </div>
             </div>
-            
+
             </div>
 
     </div>
@@ -201,18 +221,16 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.0
         </div>
-        <strong>Copyright &copy; 2019 <span href="https://adminlte.io">INSCRIPTION IAI</span>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2019 <span href="{{route('home')}}">INSCRIPTION IAI</span>.</strong> All rights reserved.
     </footer>
 
-    </section>
-    <!-- /.content -->
-    
+
+
   </div>
   <!-- /.content-wrapper -->
- 
-</div>
-<!-- ./wrapper -->
-</body>
+
+
+
 <!-- jQuery 3 -->
 <script src="{{ asset('/public/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- Select2 -->
@@ -262,63 +280,6 @@
 <script src="{{ asset('/public/bower_components/chart.js/Chart.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('/public/dist/js/demo.js') }}"></script>
-<script>
-$(function () {
-  $('#example1').DataTable()
-  $('#example2').DataTable()
-  $('.select2').select2()
 
-  var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-var pieChart       = new Chart(pieChartCanvas)
-var PieData        = [
-{
-value    : 700,
-color    : 'green',
-highlight: '#f56954',
-label    : 'Solvables'
-},
-{
-value    : 500,
-color    : 'red',
-highlight: '#00a65a',
-label    : 'Insolvables'
-},
-{
-value    : 400,
-color    : 'yellow',
-highlight: '#f39c12',
-label    : 'moratoire'
-},
-]
-var pieOptions     = {
-//Boolean - Whether we should show a stroke on each segment
-segmentShowStroke    : true,
-//String - The colour of each segment stroke
-segmentStrokeColor   : '#fff',
-//Number - The width of each segment stroke
-segmentStrokeWidth   : 2,
-//Number - The percentage of the chart that we cut out of the middle
-percentageInnerCutout: 50, // This is 0 for Pie charts
-//Number - Amount of animation steps
-animationSteps       : 100,
-//String - Animation easing effect
-animationEasing      : 'easeOutBounce',
-//Boolean - Whether we animate the rotation of the Doughnut
-animateRotate        : true,
-//Boolean - Whether we animate scaling the Doughnut from the centre
-animateScale         : false,
-//Boolean - whether to make the chart responsive to window resizing
-responsive           : true,
-// Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-maintainAspectRatio  : true,
-//String - A legend template
-legendTemplate       : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
-}
-//Create pie or douhnut chart
-// You can switch between pie and douhnut using the method below.
-pieChart.Doughnut(PieData, pieOptions)
-
-})
-</script>        
 </body>
 </html>

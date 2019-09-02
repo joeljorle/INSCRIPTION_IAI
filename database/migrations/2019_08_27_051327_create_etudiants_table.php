@@ -15,6 +15,19 @@ class CreateEtudiantsTable extends Migration
     {
         Schema::create('etudiants', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('slug')->nullable();
+            $table->string('idclasse');
+            $table->string('residence');
+            $table->string('name');
+            $table->string('surname')->nullable();
+            $table->string('image')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->unique();
+            $table->string('description')->nullable()->default('sans description');
+            $table->bigInteger('penalite')->nullable();
+            $table->boolean('moratoire')->nullable()->default(false);
+            $table->string('insolvable')->nullable()->default(true);
+            $table->string('attente')->nullable()->default(false);
             $table->timestamps();
         });
     }

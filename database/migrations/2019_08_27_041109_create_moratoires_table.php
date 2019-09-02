@@ -15,10 +15,11 @@ class CreateMoratoiresTable extends Migration
     {
         Schema::create('moratoires', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('slug')->nullable();
             $table->text('idunite');
             $table->text('idetudiant');
-            $table->string('name');
-            $table->longText('descrpition')->nullable();
+            $table->string('name')->nullable()->default('sans nom');
+            $table->longText('description')->nullable();
             $table->date('delais')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });

@@ -67,15 +67,15 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-         
+
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('/public/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Auth::user()->name}}</span>
             </a>
-           
+
           </li>
-        
+
         </ul>
       </div>
     </nav>
@@ -91,43 +91,52 @@
         </div>
         <div class="pull-left info">
           <span>{{Auth::user()->name}}</span>
+<a class="btn btn-success btn-outline-success" href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 <i class="fa fa-sign-out">  </i>  <span>logout</span>
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
         </div>
       </div>
-      
 
-      <ul class="sidebar-menu" data-widget="tree">
-          <li class="header">NAVIGATION</li>
-          <li class="active treeview menu-open">
-            <a href="#">
-              <i class="fa fa-circle-o"></i> <span>GENERALITES</span>
-              <span class="pull-right-container">
+
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">NAVIGATION</li>
+            <li class="active treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>GENERALITES</span>
+                    <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
-            </a>
-            <ul class="treeview-menu">
-              <li class="active"><a href="classes.html"><i class="fa fa-dashboard"></i>acceuill</a></li>
-              <li><a href="classes.html"><i class="fa fa-users"></i>Administrateurs</a></li>
-              <li><a href="classes.html"><i class="fa fa-institution"></i>filieres</a></li> 
-              <li><a href="classes.html"><i class="fa fa-institution"></i>classes</a></li>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('home')}}"><i class="fa fa-dashboard"></i>acceuill</a></li>
+                    <li><a href="{{route('admin.index')}}"><i class="fa fa-users"></i>administrateurs</a></li>
+                    <li><a href="{{route('filieres.index')}}"><i class="fa fa-institution"></i>filieres</a></li>
+                    <li><a href="{{route('classes.index')}}"><i class="fa fa-institution"></i>classes</a></li>
+                    <li><a href="{{route('etudiants.index')}}"><i class="fa fa-users"></i>etudiants</a></li>
 
-            </ul>
-          </li>
-          <li class="active treeview menu-open">
-              <a href="#">
-                <i class="fa fa-circle-o"></i> <span>INSCRIPTION</span>
-                <span class="pull-right-container">
+                </ul>
+            </li>
+            <li class="active treeview menu-open">
+                <a href="#">
+                    <i class="fa fa-circle-o"></i> <span>INSCRIPTION</span>
+                    <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
-              </a>
-              <ul class="treeview-menu">
-                <li class="active"><a href="classes.html"><i class="fa fa-dashboard"></i>paiements</a></li>
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>Unite de paiements</a></li>
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>moratoire et penalite</a></li> 
-                <li><a href="classes.html"><i class="fa fa-square-o"></i>paiements a distances</a></li>
-  
-              </ul>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('paiements.index')}}"><i class="fa fa-dashboard"></i>paiements</a></li>
+                    <li><a href="{{route('unitepaiements.index')}}"><i class="fa fa-square-o"></i>unites de paiement</a></li>
+                    <li><a href="{{route('modelpaiements.index')}}"><i class="fa fa-square-o"></i>models de paiement</a></li>
+                    <li><a href="{{route('moratoires.index')}}"><i class="fa fa-square-o"></i>moratoire et penalite</a></li>
+                    <li><a href="{{route('paiementdistances.index')}}"><i class="fa fa-square-o"></i>paiements a distances</a></li>
+
+                </ul>
             </li>
-          </ul>
+        </ul>
 
 
     </section>
@@ -140,7 +149,7 @@
           <h1>
   GESTION DES ADMINSTRATEURS
           </h1>
-          
+
         </section>
 
         <div class="row">
@@ -148,10 +157,10 @@
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
                   <span class="info-box-icon bg-green"><i class="fa fa-group"></i></span>
-      
+
                   <div class="info-box-content">
                     <span class="info-box-text">effectif</span>
-                    <span class="info-box-number">270</span>
+                    <span class="info-box-number">{{count($ADMINS)}}</span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -162,38 +171,38 @@
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
                   <span class="info-box-icon bg-aqua"><i class="fa fa-check-square-o"></i></span>
-      
+
                   <div class="info-box-content">
-                    <span class="info-box-text">online</span>
-                    <span class="info-box-number">90</span>
+                    <span class="info-box-text">offline</span>
+                    <span class="info-box-number">{{$ADMINSONLINE}}</span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
               </div>
               <!-- /.col -->
-      
+
               <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
                   <span class="info-box-icon bg-red"><i class="fa fa-square-o"></i></span>
-      
+
                   <div class="info-box-content">
                     <span class="info-box-text">offline</span>
-                    <span class="info-box-number">90</span>
+                    <span class="info-box-number">{{count($ADMINS)-$ADMINSONLINE}}</span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
               </div>
               <!-- /.col -->
-        
-           
-    
+
+
+
         </div>
 
 
 
-    
+
 
         <div class="box">
           <div class="box-header">
@@ -207,32 +216,50 @@
                 <th>Identifiants</th>
                 <th>Nom et prenom</th>
                 <th>status</th>
-                <th>actions</th>
+                <th></th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>1233443llll</td>
-                <td>MESSU</td>
-                <td><span class="label label-danger">offline</span></td>
-              <td> <a href="#"><span class="label label-primary"><i class="fa fa-pencil" ></i></span></a><a href="#"><span class="label label-primary"><i class="fa fa-trash"></i></span></a><a href="#"><span class="label label-primary"><i class="fa fa-eye"></i></span></a>   </td>
-              </tr>
 
-              <tr>
-                  <td>1233443llll</td>
-                  <td>MESSU</td>
-                  <td><span class="label label-success">online</span></td>
-                <td> <a href="#"><span class="label label-primary"><i class="fa fa-pencil" ></i></span></a><a href="#"><span class="label label-primary"><i class="fa fa-trash"></i></span></a><a href="#"><span class="label label-primary"><i class="fa fa-eye"></i></span></a>   </td>
+              @if($ADMINS!=null)
+                  @foreach($ADMINS AS $ADMIN)
+                      @if($ADMIN->id != Auth::user()->id)
+
+                <tr>
+                <td>{{$ADMIN->slug}}</td>
+                <td>{{$ADMIN->name}}</td>
+                <td>
+
+                    <span class="label label-{{$ADMIN->online?'success':'danger'}}">{{$ADMIN->online?'online':'offline'}}</span>
+
+                </td>
+                                 <td style="display: inline-flex;flex-direction: row;">
+                        <a href="{{route('admin.edit',$ADMIN)}}"><span class="label label-primary" ><i class="fa fa-pencil"></i></span></a>
+
+                        <form action="{{route('admin.destroy',[$ADMIN])}}"  method="post" onclick="submit();">
+                            @csrf
+                            @method('DELETE')
+                            <a href="#"><span class="label label-primary"><i class="fa fa-trash"></i></span></a>
+                        </form>
+
+
+                        <a href="{{route('admin.show',$ADMIN)}}"><span class="label label-primary"><i class="fa fa-eye"></i></span></a>
+                    </td>
+
                 </tr>
+                      @endif
+              @endforeach
+              @endif
 
-               
+
+
               </tbody>
               <tfoot>
                   <tr>
                       <th>matricule</th>
                       <th>Nom et prenom</th>
                       <th>status</th>
-                      <th>actions</th>
+                      <th></th>
                     </tr>
               </tfoot>
             </table>
@@ -244,7 +271,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
-            
+
             <div class="small-box bg-primary">
                <div class="inner">
                   <a  href="{{ route('admin.create') }}"> <p class="label label-primary">ajouter un administrateur</p></a>
@@ -252,14 +279,14 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-             
+
               </a>
             </div>
           </div>
           <!-- ./col -->
 
 
- 
+
 
     </div>
     <!-- /.col -->
@@ -273,11 +300,11 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2019 <span href="https://adminlte.io">INSCRIPTION IAI</span>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2019 <span href="{{route('home')}}">INSCRIPTION IAI</span>.</strong> All rights reserved.
   </footer>
 <!-- ./wrapper -->
 </div>
-</body>
+
 <!-- jQuery 3 -->
 <script src="{{ asset('/public/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- Select2 -->
@@ -328,62 +355,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('/public/dist/js/demo.js') }}"></script>
 <script>
-$(function () {
-  $('#example1').DataTable()
-  $('#example2').DataTable()
-  $('.select2').select2()
-
-  var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-var pieChart       = new Chart(pieChartCanvas)
-var PieData        = [
-{
-value    : 700,
-color    : 'green',
-highlight: '#f56954',
-label    : 'Solvables'
-},
-{
-value    : 500,
-color    : 'red',
-highlight: '#00a65a',
-label    : 'Insolvables'
-},
-{
-value    : 400,
-color    : 'yellow',
-highlight: '#f39c12',
-label    : 'moratoire'
-},
-]
-var pieOptions     = {
-//Boolean - Whether we should show a stroke on each segment
-segmentShowStroke    : true,
-//String - The colour of each segment stroke
-segmentStrokeColor   : '#fff',
-//Number - The width of each segment stroke
-segmentStrokeWidth   : 2,
-//Number - The percentage of the chart that we cut out of the middle
-percentageInnerCutout: 50, // This is 0 for Pie charts
-//Number - Amount of animation steps
-animationSteps       : 100,
-//String - Animation easing effect
-animationEasing      : 'easeOutBounce',
-//Boolean - Whether we animate the rotation of the Doughnut
-animateRotate        : true,
-//Boolean - Whether we animate scaling the Doughnut from the centre
-animateScale         : false,
-//Boolean - whether to make the chart responsive to window resizing
-responsive           : true,
-// Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-maintainAspectRatio  : true,
-//String - A legend template
-legendTemplate       : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
-}
-//Create pie or douhnut chart
-// You can switch between pie and douhnut using the method below.
-pieChart.Doughnut(PieData, pieOptions)
-
-})
-</script>        
+    $(function () {
+        $('#example1').DataTable()
+        $('#example2').DataTable()
+        $('.select2').select2()})
+</script>
 </body>
 </html>
